@@ -23,7 +23,7 @@ model.S=[-1 1 0 -1 0 0;
 %define model. irreversibilities
 model.rev=[0 0 0 1 0 0];
 
-%upper and lower bounds for each flux -Non Compulsory-
+%Upper and lower bounds for each flux can be defined -Non Compulsory-
 model.lb=-[0    0      0  1000  0     0];
 model.ub=[1000 1000 1000 1000 1000 1000];
 
