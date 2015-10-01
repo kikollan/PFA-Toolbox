@@ -2,11 +2,9 @@ function varargout = guiPossMeasurements(varargin)
 
 % guiPossMeasurements – Graphic User interface (GUI) to represent the measurements
 %                        in possibilistic terms.
-%                         
-% Initialize
-%   >>guiPossMeasurements
 %   
-% Description
+% DESCRIPTION ==================================================================
+%
 % GUI contains four panels: 
 % 
 % (1) New/load – create or upload a set of measures
@@ -191,7 +189,7 @@ global print
 num_flux=1;
 num_new_flux=1;
 
-% Set default values...
+% Set default values
 wm = 1;
 intFP_rel = 0.05;
 intLP_rel = 0.2;
@@ -199,28 +197,30 @@ intFP_abs = max((0.01),abs(wm.*intFP_rel));
 intLP_abs = max((2*0.01),abs(wm.*intLP_rel));
 names = {'Flux1'};
 
-% Calculate parameters to the plot function...
-e2max = intFP_abs;
-m2max = intFP_abs;
-alpha = -log(0.1)./(intLP_abs-e2max);
-beta = -log(0.1)./(intLP_abs-m2max);
+% REFRESH THE PLOTS
 
-% Update values of UI object
-set(handles.list_flux, 'Value', 1);
-set(handles.list_print, 'Value', 1);
-set(handles.list_flux, 'String', names);
-set(handles.list_print, 'String', names);
-set(handles.edit_wm, 'String', num2str(wm(1)));
-set(handles.edit_intFP_abs,'String', num2str(intFP_abs(1)));
-set(handles.edit_intLP_abs,'String', num2str(intLP_abs(1)));
-set(handles.edit_intFP_rel,'String', num2str(intFP_rel(1)));
-set(handles.edit_intLP_rel,'String', num2str(intLP_rel(1)));
-set(handles.edit_flux, 'String', names(1));
+    % Calculate parameters to the plot function
+    e2max = intFP_abs;
+    m2max = intFP_abs;
+    alpha = -log(0.1)./(intLP_abs-e2max);
+    beta = -log(0.1)./(intLP_abs-m2max);
 
-% Refresh the plots
-print = 1;
-refresh_plot1(handles);
-refresh_plot2(1,handles)
+    % Update values of UI object
+    set(handles.list_flux, 'Value', 1);
+    set(handles.list_print, 'Value', 1);
+    set(handles.list_flux, 'String', names);
+    set(handles.list_print, 'String', names);
+    set(handles.edit_wm, 'String', num2str(wm(1)));
+    set(handles.edit_intFP_abs,'String', num2str(intFP_abs(1)));
+    set(handles.edit_intLP_abs,'String', num2str(intLP_abs(1)));
+    set(handles.edit_intFP_rel,'String', num2str(intFP_rel(1)));
+    set(handles.edit_intLP_rel,'String', num2str(intLP_rel(1)));
+    set(handles.edit_flux, 'String', names(1));
+
+    % Refresh the plots
+    print = 1;
+    refresh_plot1(handles);
+    refresh_plot2(1,handles)
 
 
 %% =============== LOAD BUTTON PRESS ========================
@@ -228,7 +228,7 @@ refresh_plot2(1,handles)
 
 function button_load_Callback(~, ~, handles)
 
-% Global variables...
+% Global variables
 global wm
 global intFP_abs
 global intLP_abs
@@ -246,22 +246,23 @@ global print
 % Get the name of the structure to be loaded
 structure_name = get(handles.edit_load, 'String');
 
-% Extract variables in the workspace...
+% Extract variables in the workspace
 ws=evalin('base','who');
 
-% Search the structure to be loaded...
+% Search the structure to be loaded
 if isempty(structure_name)
-    warndlg('The measures name is empty','Load Measurements')
+    warndlg('The measures structure is empty','Load Measurements')
 elseif isempty(find(strcmp(ws,structure_name)))
-    warndlg('Not exist this measures in the workspace','Load Measurements')
+    warndlg('The structure do not exist in the workspace','Load Measurements')
 else
-    % Load the structure and extract variables
+
+    % Load the structure and extract its variables
     measures_struc=evalin('base',structure_name);
     wm = measures_struc.wm;
     intFP_abs = measures_struc.intFP;
     intLP_abs = measures_struc.intLP;
     
-    % If scalar, make vectors...
+    % If intervals are scalar, make them vectors
     if length(intFP_abs) == 1
         intFP_abs=intFP_abs*ones(length(wm),1);
         intLP_abs=intLP_abs*ones(length(wm),1);
@@ -271,38 +272,40 @@ else
     num_new_flux = length(wm);
     names = [];
     
-    % Read names...
+    % Read flux names
     for i=1:length(wm);
         names = [names; {strcat('Flux ',num2str(i))}];
     end
     
-    % Compute intervals in relative terms
+    % Calculate the relative intervals
     intFP_rel = abs((intFP_abs)./wm);
     intLP_rel = abs((intLP_abs)./wm);
     
-    % Calculate parameters to the plot function...
-    e2max = intFP_abs;
-    m2max = intFP_abs;
-    alpha = -log(0.1)./(intLP_abs-e2max);
-    beta = -log(0.1)./(intLP_abs-m2max);
-    
-    % Update values of UI object
-    set(handles.list_flux, 'Value', 1);
-    set(handles.list_print, 'Value', 1);
-    set(handles.list_flux, 'String', names);
-    set(handles.list_print, 'String', names);
-    set(handles.edit_wm, 'String', num2str(wm(1)));
-    set(handles.edit_intFP_abs,'String', num2str(intFP_abs(1)));
-    set(handles.edit_intLP_abs,'String', num2str(intLP_abs(1)));
-    set(handles.edit_intFP_rel,'String', num2str(intFP_rel(1)));
-    set(handles.edit_intLP_rel,'String', num2str(intLP_rel(1)));
-    set(handles.edit_flux, 'String', names(1));
-    
-    % Refresh the plots
-    print = 1;
-    refresh_plot2(1,handles)
-    refresh_plot1(handles);
-    set(handles.edit_load, 'String','');
+    % REFRESH THE PLOTS
+        
+        % Calculate parameters to the plot function
+        e2max = intFP_abs;
+        m2max = intFP_abs;
+        alpha = -log(0.1)./(intLP_abs-e2max);
+        beta = -log(0.1)./(intLP_abs-m2max);
+        
+        % Update values of UI object
+        set(handles.list_flux, 'Value', 1);
+        set(handles.list_print, 'Value', 1);
+        set(handles.list_flux, 'String', names);
+        set(handles.list_print, 'String', names);
+        set(handles.edit_wm, 'String', num2str(wm(1)));
+        set(handles.edit_intFP_abs,'String', num2str(intFP_abs(1)));
+        set(handles.edit_intLP_abs,'String', num2str(intLP_abs(1)));
+        set(handles.edit_intFP_rel,'String', num2str(intFP_rel(1)));
+        set(handles.edit_intLP_rel,'String', num2str(intLP_rel(1)));
+        set(handles.edit_flux, 'String', names(1));
+        
+        % Refresh the plots
+        print = 1;
+        refresh_plot2(1,handles)
+        refresh_plot1(handles);
+        set(handles.edit_load, 'String','');
 end
 
 function edit_load_CreateFcn(hObject, ~, ~)
@@ -311,310 +314,296 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 function edit_load_Callback(~, ~, ~)
 
+%% =============== SAVE BUTTON PRESS ========================
+% Save the measurements data into the workspace,
+% as a structure with wm, intFP and intLP values.
 
-%% =============== SAVE BUTTON (edit) ========================
-
-% Save to workspace this problem on structure
 function button_save_Callback(~, ~, handles)
 
+% global variables
 global wm
 global intFP_abs
 global intLP_abs
 
-% Name of struct. output
+% Read the name of the structure form the guide
 name_structure=get(handles.edit_save, 'String');
-
 if (isempty(name_structure))
-    warndlg('Don''t specified name to save','Save')
-    
+    warndlg('You must provide a name','Save')
 else
     
-    % Output variables
-    structure.wm = wm;
-    structure.intFP = intFP_abs;
-    structure.intLP = intLP_abs;
+% Create the structure to save
+structure.wm = wm;
+structure.intFP = intFP_abs;
+structure.intLP = intLP_abs;
     
-    % Save structure
-    assignin('base',name_structure,structure)
-    set(handles.edit_save, 'String','');
+% Save the structure and clear the guide editbox
+assignin('base',name_structure,structure)
+set(handles.edit_save, 'String','');
     
 end
 
-% *********************** Edit SAVE button ********************************
 function edit_save_CreateFcn(hObject, ~, ~)
-
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-
 function edit_save_Callback(~, ~, ~)
-% empty function, but is necessary
 
 
 
 
-%% **************************** MENU MEASURES *****************************
+%% =============== ADD MEASURE BUTTON PRESS ========================
+% Adds a measure to the set of measurements
 
-% ****************************** ADD button *******************************
 function button_add_Callback(~, ~, handles)
 
+% global variables
 global wm
 global intFP_abs
 global intLP_abs
 global intFP_rel
 global intLP_rel
-
 global alpha
 global beta
 global e2max
 global m2max
-
 global print
-
 global names
 global num_flux
 global num_new_flux
 
-% Add new counter flux
+% Increase flux counter
 num_flux = num_flux +1;
 num_new_flux = num_new_flux + 1;
 
-% Add new default possibilistic values
-wm=[wm; 1];
+% Add the measurement data with default values
 names = [names; {strcat('Flux ',num2str(num_new_flux))}];
+wm=[wm; 1];
 intFP_rel = [intFP_rel; 0.05];
 intLP_rel = [intLP_rel; 0.2];
 intFP_abs = [intFP_abs; max((0.01),abs(wm(num_flux).*intFP_rel(num_flux)))];
 intLP_abs = [intLP_abs; max((2*0.01),abs(wm(num_flux).*intLP_rel(num_flux)))];
 
-e2max = intFP_abs;
-m2max = intFP_abs;
-alpha = -log(0.1)./(intLP_abs-e2max);
-beta = -log(0.1)./(intLP_abs-m2max);
+% REFRESH THE PLOTS
 
-% Set new value on guide
-set(handles.edit_wm, 'String', wm(num_flux));
-set(handles.list_flux, 'String', names);
-set(handles.list_print, 'String', names);
-set(handles.edit_intFP_rel, 'String', intFP_rel(num_flux));
-set(handles.edit_intFP_abs, 'String', intFP_abs(num_flux));
-set(handles.edit_intLP_rel, 'String', intLP_rel(num_flux));
-set(handles.edit_intLP_abs, 'String', intLP_abs(num_flux));
-set(handles.edit_flux, 'String', names(num_flux));
-set(handles.list_flux,'Value',num_flux);
+    % Calculate parameters to the plot function
+    e2max = intFP_abs;
+    m2max = intFP_abs;
+    alpha = -log(0.1)./(intLP_abs-e2max);
+    beta = -log(0.1)./(intLP_abs-m2max);
 
-% Search flux are represented on print and add this new flux
-actives=get(handles.list_print,'Value');
-actives = [actives, num_flux];
-print = actives;
-set(handles.list_print,'Value',actives);
+    % Update values of UI object
+    set(handles.edit_wm, 'String', wm(num_flux));
+    set(handles.list_flux, 'String', names);
+    set(handles.list_print, 'String', names);
+    set(handles.edit_intFP_rel, 'String', intFP_rel(num_flux));
+    set(handles.edit_intFP_abs, 'String', intFP_abs(num_flux));
+    set(handles.edit_intLP_rel, 'String', intLP_rel(num_flux));
+    set(handles.edit_intLP_abs, 'String', intLP_abs(num_flux));
+    set(handles.edit_flux, 'String', names(num_flux));
+    set(handles.list_flux,'Value',num_flux);
 
-% Refresh plots
-refresh_plot2(num_flux,handles);
-refresh_plot1(handles);
+    % Find currently plotted fluxes, add the new one, and plot again
+    actives=get(handles.list_print,'Value');
+    actives = [actives, num_flux];
+    print = actives;
+    set(handles.list_print,'Value',actives);
 
-% ************************* DUPLICATE button ******************************
+    % Refresh the plots
+    refresh_plot2(num_flux,handles);
+    refresh_plot1(handles);
 
-% Duplicate the selected flux
+%% =============== DUPLICATE BUTTON PRESS ========================
+% Add a new flux by copying the selected one
 
 function button_duplicate_Callback(~, ~, handles)
 
+% global variables
 global wm
 global intFP_abs
 global intLP_abs
 global intFP_rel
 global intLP_rel
-
 global alpha
 global beta
 global e2max
 global m2max
-
 global names
 global print
-
 global num_flux
 global num_new_flux
 
-% Add new counter flux
+% Increase flux counter
 num_flux = num_flux +1;
 num_new_flux = num_new_flux + 1;
 
-% Index of selected flux
+% Find the flux selected, to copy it
 ind = get(handles.list_flux, 'Value');
 
-% Add new possibilistic duplicated values
-wm=[wm; wm(ind)];
+% Add the measurement data with copied data
 names = [names; {strcat('Flux ',num2str(num_new_flux))}];
+wm=[wm; wm(ind)];
 intFP_rel = [intFP_rel; intFP_rel(ind)];
 intLP_rel = [intLP_rel; intLP_rel(ind)];
 intFP_abs = [intFP_abs; intFP_abs(ind)];
 intLP_abs = [intLP_abs; intLP_abs(ind)];
 
-e2max = intFP_abs;
-m2max = intFP_abs;
-alpha = [alpha; alpha(ind)];
-beta = [beta; beta(ind)];
+% REFRESH THE PLOTS
 
-% Set new value on guide
-set(handles.edit_wm, 'String', wm(num_flux));
-set(handles.list_flux, 'String', names);
-set(handles.list_print, 'String', names);
-set(handles.edit_intFP_rel, 'String', intFP_rel(num_flux));
-set(handles.edit_intFP_abs, 'String', intFP_abs(num_flux));
-set(handles.edit_intLP_rel, 'String', intLP_rel(num_flux));
-set(handles.edit_intLP_abs, 'String', intLP_abs(num_flux));
-set(handles.edit_flux, 'String', names(num_flux));
-set(handles.list_flux,'Value',num_flux);
+    % Calculate parameters to the plot function
+    e2max = intFP_abs;
+    m2max = intFP_abs;
+    alpha = [alpha; alpha(ind)];
+    beta = [beta; beta(ind)];
 
-% Search flux are represented on print and add this new flux
-actives=get(handles.list_print,'Value');
-actives = [actives, num_flux];
-print = actives;
-set(handles.list_print,'Value',actives);
+    % Update values of UI object
+    set(handles.edit_wm, 'String', wm(num_flux));
+    set(handles.list_flux, 'String', names);
+    set(handles.list_print, 'String', names);
+    set(handles.edit_intFP_rel, 'String', intFP_rel(num_flux));
+    set(handles.edit_intFP_abs, 'String', intFP_abs(num_flux));
+    set(handles.edit_intLP_rel, 'String', intLP_rel(num_flux));
+    set(handles.edit_intLP_abs, 'String', intLP_abs(num_flux));
+    set(handles.edit_flux, 'String', names(num_flux));
+    set(handles.list_flux,'Value',num_flux);
 
-% Refresh plots
-refresh_plot2(num_flux,handles);
-refresh_plot1(handles);
+    % Find currently plotted fluxes, add the new one, and plot again
+    actives=get(handles.list_print,'Value');
+    actives = [actives, num_flux];
+    print = actives;
+    set(handles.list_print,'Value',actives);
+
+    % Refresh the plots
+    refresh_plot2(num_flux,handles);
+    refresh_plot1(handles);
 
 
-% ***************************** REMOVE button *****************************
-
+%% =============== DELETE FLUX BUTTON PRESS ========================
 % Delete selected flux
 
 function button_remove_Callback(~, ~, handles)
 
+% global variables
 global wm
 global intFP_abs
 global intLP_abs
 global intFP_rel
 global intLP_rel
-
 global alpha
 global beta
 global e2max
 global m2max
-
 global names
-
 global num_flux
 global num_new_flux
-
 global print
 
-% Index of the selected flux to be deleted
+% Get the index of the selected flux to be deleted
 ind = get(handles.list_flux, 'Value');
 num = get(handles.list_flux, 'String');
 num = length(num);
 
-% Don't remove the last flux
+% Caution: do not delete if there is only one flux
 if (ind>1)
     
-    % Delete one counter flux
+    % Decrease the flux counter
     num_flux = num_flux - 1;
     num_new_flux = num_new_flux - 1;
     
-    % Remove values to the flux
+    % Remove the flux data
     wm(ind)=[];
     intFP_rel(ind) = [];
     intLP_rel(ind) = [];
     intFP_abs(ind) = [];
     intLP_abs(ind) =  [];
     names(ind) = [];
-    
     e2max(ind) = [];
     m2max(ind) = [];
     alpha(ind) = [];
     beta(ind) = [];
     
-    % Rename all fluxes
+    % Rename the fluxes with new indexes
     for i=(ind):length(names)
         names(i) = {strcat('Flux ',num2str(i))};
     end
-    
     if ind == num
-        
         ind = ind-1;
         set(handles.list_flux,'Value',ind);
         
     end
     
-    % Set the same number flux on the guide
+    % Plot the original fluxes
     set(handles.edit_wm, 'String', wm(ind));
     set(handles.edit_intFP_rel, 'String', intFP_rel(ind));
     set(handles.edit_intFP_abs, 'String', intFP_abs(ind));
     set(handles.edit_intLP_rel, 'String', intLP_rel(ind));
     set(handles.edit_intLP_abs, 'String', intLP_abs(ind));
-    
     act = get(handles.list_print,'Value');
-    
     for i=1:length(act)
         if act(i)>ind
             act(i)=act(i)-1;
         end
     end
-    
     set(handles.list_print,'Value',act);
     set(handles.list_flux, 'String', names);
     set(handles.list_print,'String',names);
     print = act;
     
-    % Refresh plots
+    % Refresh the plots
     refresh_plot2(ind,handles);
     refresh_plot1(handles);
     
 end
 
-% ************** Select distribution/interval radio button  ***************
-
-% Set print mode on dist or int
+%% =============== SELECT DIST/INTERVAL RADIO BUTTON PRESS ========================
+% Set the plot style: distributions or intervals
 
 function radiobutton_dist_Callback(~, ~, handles)
 
+% change radio...
 set(handles.radiobutton_int,'Value',0);
+
+% And refresh plot
 refresh_plot1(handles)
 
 function radiobutton_int_Callback(~, ~, handles)
 
+% change radio...
 set(handles.radiobutton_dist,'Value',0);
+
+% And refresh plot
 refresh_plot1(handles)
 
-% *********************** PRINT list   **************************
+%% =============== PRINT A LIST OF FLUXES PRESS ========================
+% Click the list of fluxes to be plotted (in lower axis)
 
-% Click on list FLUX
 function list_print_Callback(hObject, ~, handles)
 
+% global
 global print
 
-% Set the values to print
+% Set the index of fluxes to be plotted
 print=get(hObject, 'value');
 ind=get(handles.list_flux, 'Value');
 print=[print,ind];
 set(hObject,'value',print)
 
-% Refresh plots
+% Refresh the plots
 refresh_plot2(ind,handles)
 refresh_plot1(handles);
 
-% Create PRINT list
 function list_print_CreateFcn(hObject, ~, ~)
-
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
 
-% *********************** FLUX list   **************************
-% Create list FLUX
-function list_flux_CreateFcn(hObject, ~, ~)
 
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+%% =============== PRINT A LIST OF FLUXES PRESS ========================
+% Click one flux in the list of fluxes to edit (and plot in upper axis)
 
-% Click on list FLUX
 function list_flux_Callback(~, ~, handles)
 
+% global
 global wm
 global intFP_abs
 global intLP_abs
@@ -623,7 +612,7 @@ global intLP_rel
 global print
 global names
 
-% Set the selected flux on guide
+% Get the flux data and bring to the GUI
 ind = get(handles.list_flux, 'Value');
 set(handles.edit_wm, 'String', num2str(wm(ind)));
 set(handles.edit_intFP_abs,'String', num2str(intFP_abs(ind)));
@@ -632,26 +621,32 @@ set(handles.edit_intFP_rel,'String', num2str(intFP_rel(ind)));
 set(handles.edit_intLP_rel,'String', num2str(intLP_rel(ind)));
 set(handles.edit_flux, 'String', names(ind));
 
+% Set as 'active' flux to be plotted in a special color
 actives=get(handles.list_print,'Value');
 actives = [actives, ind];
 set(handles.list_print,'Value',actives);
 print = actives;
+
+% Refresh the plot
 refresh_plot2(ind,handles);
 
-% ***************************** Edit flux *********************************
-
-function edit_flux_CreateFcn(hObject, ~, ~)
-
+function list_flux_CreateFcn(hObject, ~, ~)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
-% ****************************** Edit wm **********************************
+%% =============== edit FLUX ========================
+function edit_flux_CreateFcn(hObject, ~, ~)
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
 
-% Change wm value and recalculate the other values
+%% =============== EDIT FLUX PRESS ========================
+% Edit the wm parameter of the flux
 
 function edit_wm_Callback(~, ~, handles)
 
+% global
 global wm
 global intFP_abs
 global intLP_abs
@@ -662,47 +657,46 @@ global m2max
 global alpha
 global beta
 
-% Index of selected flux
+% Get index of the selected flux
 ind=get(handles.list_flux, 'Value');
 pause(0.2);
 
-% New value of wm
+% Read the wm value from the guide
 wm(ind)= str2double(get(handles.edit_wm,'String'));
 
-% Recalculate other values
+% Recalculate all parameters
 intFP_rel(ind) = str2double(get(handles.edit_intFP_rel,'String'));
 intLP_rel(ind) = str2double(get(handles.edit_intLP_rel,'String'));
 intFP_abs(ind) = max((0.01),abs(wm(ind).*intFP_rel(ind)));
 intLP_abs(ind) = max((2*0.01),abs(wm(ind).*intLP_rel(ind)));
 
+% Calculate parameters to the plot function
 e2max(ind) = intFP_abs(ind);
 m2max(ind) = intFP_abs(ind);
 alpha(ind) = -log(0.1)./(intLP_abs(ind)-e2max(ind));
 beta(ind) = -log(0.1)./(intLP_abs(ind)-m2max(ind));
 
-% Set this values on guide
+% % Update values of UI object
 set(handles.edit_intFP_abs,'String', num2str(intFP_abs(ind)));
 set(handles.edit_intLP_abs,'String', num2str(intLP_abs(ind)));
 set(handles.edit_intFP_rel,'String', num2str(intFP_rel(ind)));
 set(handles.edit_intLP_rel,'String', num2str(intLP_rel(ind)));
 
-% Refresh plots
+% Refresh the plots
 refresh_plot2(ind,handles);
 refresh_plot1(handles);
 
 function edit_wm_CreateFcn(hObject, ~, ~)
-
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
-
-% ************************ Edit intFP Absolute ****************************
-
-% Change intFP abs value and recalculate the other values
+%% =============== EDIT intFP PRESS ========================
+% Edit the intFP parameter of the flux
 
 function edit_intFP_abs_Callback(~, ~, handles)
 
+% global variables
 global wm
 global intFP_abs
 global intLP_abs
@@ -712,41 +706,41 @@ global m2max
 global alpha
 global beta
 
-% Index of selected flux
+% Get index of the selected flux
 ind=get(handles.list_flux, 'Value');
 pause(0.2);
 
-% New value of intFP_abs
+% Read the intFP value from the guide
 intFP_abs(ind) = str2double(get(handles.edit_intFP_abs,'String'));
 
-% Recalculate other values
+% Recalculate all parameters
 intFP_rel(ind) = (intFP_abs(ind))./wm(ind);
 
+% Calculate parameters to the plot function
 e2max(ind) = intFP_abs(ind);
 m2max(ind) = intFP_abs(ind);
 alpha(ind) = -log(0.1)./(intLP_abs(ind)-e2max(ind));
 beta(ind) = -log(0.1)./(intLP_abs(ind)-m2max(ind));
 
-% Set this values on guide
+% Update values of UI object
 set(handles.edit_intFP_rel,'String', num2str(intFP_rel(ind)));
 
-% Refresh plots
+% Refresh the plots
 refresh_plot2(ind,handles);
 refresh_plot1(handles);
 
 function edit_intFP_abs_CreateFcn(hObject, ~, ~)
-
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
 
-% ************************ Edit intLP Absolute ****************************
-
-% Change intLP abs value and recalculate the other values
+%% =============== EDIT intLP PRESS ========================
+% Edit the intLP parameter of the flux
 
 function edit_intLP_abs_Callback(~, ~, handles)
 
+% global variables
 global wm
 global intLP_abs
 global intLP_rel
@@ -755,38 +749,37 @@ global m2max
 global alpha
 global beta
 
-% Index of selected flux
+% Get index of the selected flux
 ind=get(handles.list_flux, 'Value');
 pause(0.2);
 
-% New value of intLP_abs
+% Read the intLP value from the guide
 intLP_abs(ind) = str2double(get(handles.edit_intLP_abs,'String'));
 
-% Recalculate other values
+% Recalculate all parameters
 intLP_rel(ind) = (intLP_abs(ind))./wm(ind);
-
 alpha(ind) = -log(0.1)./(intLP_abs(ind)-e2max(ind));
 beta(ind) = -log(0.1)./(intLP_abs(ind)-m2max(ind));
 
-% Set this values on guide
+% Update values of UI object
 set(handles.edit_intLP_rel,'String', num2str(intLP_rel(ind)));
 
-% Refresh plots
+% Refresh the plots
 refresh_plot2(ind,handles);
 refresh_plot1(handles);
 
 function edit_intLP_abs_CreateFcn(hObject, ~, ~)
-
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
-% ************************ Edit intLP Relaitve ****************************
 
-% Change intFP rel value and recalculate the other values
+%% =============== EDIT intFP relative PRESS ========================
+% Edit the intFP relative parameter of the flux
 
 function edit_intFP_rel_Callback(~, ~, handles)
 
+% global variables
 global wm
 global intFP_abs
 global intLP_abs
@@ -796,42 +789,39 @@ global m2max
 global alpha
 global beta
 
-% Index of selected flux
+% Get index of the selected flux
 ind=get(handles.list_flux, 'Value');
 pause(0.2);
 
-
-% New value of intFP_rel
+% Read the intLP value from the guide
 intFP_rel(ind) = str2double(get(handles.edit_intFP_rel,'String'));
 
-% Recalculate other values
+% Recalculate all parameters
 intFP_abs(ind) = max((0.01),abs(wm(ind).*intFP_rel(ind)));
-
 e2max(ind) = intFP_abs(ind);
 m2max(ind) = intFP_abs(ind);
 alpha(ind) = -log(0.1)./(intLP_abs(ind)-e2max(ind));
 beta(ind) = -log(0.1)./(intLP_abs(ind)-m2max(ind));
 
-% Set this values on guide
+% Update values of UI object
 set(handles.edit_intFP_abs,'String', num2str(intFP_abs(ind)));
 
-% Refresh plots
+% Refresh the plots
 refresh_plot2(ind,handles);
 refresh_plot1(handles);
 
 function edit_intFP_rel_CreateFcn(hObject, ~, ~)
-
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
 
-% ************************ Edit intLP Relaitve ****************************
-
-% Change intLP rel value and recalculate the other values
+%% =============== EDIT intLP relative PRESS ========================
+% Edit the intLP relative parameter of the flux
 
 function edit_intLP_rel_Callback(~, ~, handles)
 
+% global variables
 global wm
 global intLP_abs
 global intLP_rel
@@ -840,38 +830,38 @@ global m2max
 global alpha
 global beta
 
-% Index of selected flux
+% Get index of the selected flux
 ind=get(handles.list_flux, 'Value');
 pause(0.2);
 
-% New value of intLP_rel
+% Read the intLP value from the guide
 intLP_rel(ind) = str2double(get(handles.edit_intLP_rel,'String'));
 
-% Recalculate other values
+% Recalculate all parameters
 intLP_abs(ind) = max((2*0.01),abs(wm(ind).*intLP_rel(ind)));
-
 alpha(ind) = -log(0.1)./(intLP_abs(ind)-e2max(ind));
 beta(ind) = -log(0.1)./(intLP_abs(ind)-m2max(ind));
 
-% Set this values on guide
+% Update values of UI object
 set(handles.edit_intLP_abs,'String', num2str(intLP_abs(ind)));
 
-% Refresh plots
+% Refresh the plots
 refresh_plot2(ind,handles);
 refresh_plot1(handles);
 
 function edit_intLP_rel_CreateFcn(hObject, ~, ~)
-
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
 
-%% *************************** PRINT functions ****************************
+%% =============== PLOT FUNCTIONS ========================
+% Functions to plot on the axis 1 and 2
 
-
+% Plot at upper axis
 function refresh_plot1(handles)
 
+% global
 global wm
 global alpha
 global beta
@@ -879,12 +869,16 @@ global e2max
 global m2max
 global resolution
 
+% reset the axes
 cla(handles.axes1,'reset');
 
+% If type of plot is Interval
 if (get(handles.radiobutton_int, 'Value')==1)
     
+    % all fluxes....
     flux=[1:length(wm)]';
     
+    % init as zeros...
     xmin_c1 = zeros(length(wm),1);
     xmax_c1 = zeros(length(wm),1);
     xmin_c2 = zeros(length(wm),1);
@@ -892,66 +886,63 @@ if (get(handles.radiobutton_int, 'Value')==1)
     xmin_c3 = zeros(length(wm),1);
     xmax_c3 = zeros(length(wm),1);
     
+    % for each flux....
     for j=1:length(wm)
         
-        
+        % get the interval of 1, 0.5 and 0.1 
         med=(log(1)/alpha(j))+(wm(j)-e2max(j));
         xmin_c1(j) = med;
-        
         med=(log(0.5)/alpha(j))+(wm(j)-e2max(j));
         xmin_c2(j) = med;
-        
         med=(log(0.1)/alpha(j))+(wm(j)-e2max(j));
         xmin_c3(j) = med;
-        
         med=-(log(1)/alpha(j))+(wm(j)+e2max(j));
         xmax_c1(j) = med;
-        
         med=-(log(0.5)/alpha(j))+(wm(j)+e2max(j));
         xmax_c2(j) = med;
-        
         med=-(log(0.1)/alpha(j))+(wm(j)+e2max(j));
         xmax_c3(j) =med;
-        
-        
     end
     
+    % size of the boxplot
     widthbox=0.2;
     
+    % select the axes and configure
     axes(handles.axes1);
+    plot(1,1); cla; grid on; hold on;
     
-    plot(1,1);
-    cla;
-    
-    
+    % plot: interval of pi=0.1 as lines...
     for i=1:length(xmin_c3)
         line([flux(i) flux(i)],[xmin_c3(i) xmax_c3(i)],'LineWidth',2,'Color',0.4*ones(3,1));
     end
     
-    hold on;
-    grid on;
-    
+    % plot: interval of pi=0.5 as error bar...
     Ax=(xmax_c2-xmin_c2)/2;
     Mx=xmin_c2 + Ax;
-    
     errorbar(flux,Mx,Ax,'Color',0.2*ones(1,3),'LineWidth',2,'Marker','none','LineStyle','none');
     
+    % plot: interval of pi=0.9 as boxes...
     xdata=[flux'-widthbox;flux'-widthbox;flux'+widthbox;flux'+widthbox];
-    
     ydata=[xmin_c1';xmax_c1';xmax_c1';xmin_c1'];
     zdata=ones(4,length(xmin_c1));
     patch(xdata,ydata,zdata,'LineWidth',2,'FaceColor',0.8*ones(1,3),'EdgeColor',0.4*ones(1,3))
+    
+    % configure plot 
     axis (handles.axes1,'tight');
     set(handles.axes1,'YColor',[0.42 0.42 0.42]);
     set(handles.axes1,'XColor',[0.42 0.42 0.42]);
     
+% if plot is of type distribution
 elseif (get(handles.radiobutton_dist, 'Value')==1)
     
+    % define colors
     ColorSet = varycolor(length(wm));
     
+    % limits
     maxmed= -1000000;
     minmed= 1000000;
     
+    % for each flux, plot a distribution
     for j=1:length(wm)
         
         id = j;
@@ -961,33 +952,31 @@ elseif (get(handles.radiobutton_dist, 'Value')==1)
         g1=logspace(log10(0.001),log10(1),resolution);
         g2=logspace(log10(1),log10(0.001),resolution);
         
+        % get values for each possibility (from the left, "resolution" points)
         for i=1:(resolution-1)
-            
             nmed=(log(g1(i))/alpha(id))+(wm(id)-e2max(id));
             pos(i)=g1(i);
             med(i)=nmed;
         end
         
+        % add data for the full possibility interval
         med(resolution) = (wm(id)-e2max(id));
         pos(resolution) = 1;
         med(resolution+1) = (wm(id)+m2max(id));
         pos(resolution+1) =  1;
         
-        
+        % get values for each possibility (from the right, "resolution" points)
         for i=2:resolution
-            
             nmed=-((log(g2(i))/beta(id))-(wm(id)+m2max(id)));
             pos(i+resolution)=g2(i);
             med(i+resolution)=nmed;
         end
         
-        if (max(med)>maxmed)
-            maxmed = max(med);
-        end
-        if (min(med)<minmed)
-            minmed = min(med);
-        end
+        % bound with limits to avoid infinites
+        if (max(med)>maxmed)            maxmed = max(med);        end
+        if (min(med)<minmed)            minmed = min(med);        end
         
+        % plot the distribution from med and pos
         plot(handles.axes1,med,pos,'Color', ColorSet(j,:))
         hold(handles.axes1,'on');
         plot(handles.axes1,wm(id)*ones(1,11),0:.1:1,'--','Color', ColorSet(j,:));
@@ -997,12 +986,13 @@ elseif (get(handles.radiobutton_dist, 'Value')==1)
         set(handles.axes1,'YTickLabel',{'0','0.5','1'});
         set(handles.axes1,'YColor',[0.42 0.42 0.42]);
         set(handles.axes1,'XColor',[0.42 0.42 0.42]);
-        
     end
 end
 
+% Plot at upper axis
 function refresh_plot2(ind,handles)
 
+% global variables
 global wm
 global alpha
 global beta
@@ -1011,49 +1001,48 @@ global m2max
 global print
 global resolution
 
+% clear and limits
 cla(handles.axes2);
-
 maxmed = -1000000;
 minmed = 1000000;
 
+% for each flux...
 for j=1:length(wm)
     
+    % if the flux is marked to be plotted, plot it
     if (find(print == j)>0)
         
         id = j;
         med=zeros(2*resolution,1);
         pos=zeros(2*resolution,1);
-        
         g1=logspace(log10(0.001),log10(1),resolution);
         g2=logspace(log10(1),log10(0.001),resolution);
         
+        % get values for each possibility (from the left, "resolution" points)
         for i=1:(resolution-1)
-            
             nmed=(log(g1(i))/alpha(id))+(wm(id)-e2max(id));
             pos(i)=g1(i);
             med(i)=nmed;
         end
-        
+
+        % add data for the full possibility interval
         med(resolution) = (wm(id)-e2max(id));
         pos(resolution) = 1;
         med(resolution+1) = (wm(id)+m2max(id));
         pos(resolution+1) =  1;
         
-        
+        % get values for each possibility (from the right, "resolution" points)
         for i=2:resolution
-            
             nmed=-((log(g2(i))/beta(id))-(wm(id)+m2max(id)));
             pos(i+resolution)=g2(i);
             med(i+resolution)=nmed;
         end
         
-        if (max(med)>maxmed)
-            maxmed = max(med);
-        end
-        if (min(med)<minmed)
-            minmed = min(med);
-        end
+        % bound with limits to avoid infinites
+        if (max(med)>maxmed)            maxmed = max(med);        end
+        if (min(med)<minmed)            minmed = min(med);        end
         
+        % use different colors for the flux selected
         if (j==ind)
             plot(handles.axes2,med,pos,'r','LineWidth',2.5)
             hold(handles.axes2,'on');
@@ -1067,29 +1056,24 @@ for j=1:length(wm)
         set(handles.axes2,'YTickLabel',{'0','0.5','1'});
         set(handles.axes2,'YColor',[0.42 0.42 0.42]);
         set(handles.axes2,'XColor',[0.42 0.42 0.42]);
-        
     end
 end
 
+% if there is no flux selected to plot, do nothing
 if ~isempty(print)
     axis (handles.axes2,[minmed maxmed 0 1.02]);
     grid(handles.axes2,'on');
 end
 
 
+%% =============== MENU CALLBACK ========================
+% These go to the required webpages
 
-% --------------------------------------------------------------------
 function contact_lab_Callback(hObject, eventdata, handles)
 web('http://sb2cl.ai2.upv.es');
-
-% --------------------------------------------------------------------
 function contact_kiko_Callback(hObject, eventdata, handles)
 web('http://francisco.llaneras.es');
-
-% --------------------------------------------------------------------
 function about_toolbox_Callback(hObject, eventdata, handles)
 web('http://francisco.llaneras.es');
-
-% --------------------------------------------------------------------
 function help_Callback(hObject, eventdata, handles)
 web('http://francisco.llaneras.es');
