@@ -1,8 +1,6 @@
-# PFA-Toolbox
-A MATLAB toolbox for interval and possibilistic MFA
-PFA Toolbox  for MATLAB  is tool to easily apply Interval MFA and Possibilistic MFA. It has been developed by Universitat de Girona and Universidad Politécnica de Valencia.
 
-##License
+License.
+
 PFA Toolbox source is released under both YALMIP License and this additionally license:
 
 1. This Toolbox is free software: you can redistribute it and/or modify it.
