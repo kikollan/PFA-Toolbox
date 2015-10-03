@@ -23,7 +23,7 @@ function [v,poss,diagnostic] = solve_maxPoss(PossProblem,options)
 % 
 %  See also   define_MEC
 % 
-% Additional information, please visit http://www.possmfa.edu
+% Additional information, please visit https://github.com/kikollan/PFA-Toolbox
 %
 %=======================================================================================
 
