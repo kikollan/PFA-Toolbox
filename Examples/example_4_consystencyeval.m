@@ -10,7 +10,7 @@
 % 3.    FLUX DISTRIBUTION AS ESTIMATION
 % 4.    PLOT FLUX DISTRIBUTION ESTIMATIONS AND MEASUREMENTS DISTRIBUTIONS
 %
-% For additional information, please visit http://www.possmfa.edu
+% For additional information, please visit https://github.com/kikollan/PFA-Toolbox
 %
 %=====================================================================================
 %

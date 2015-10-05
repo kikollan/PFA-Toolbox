@@ -15,7 +15,7 @@
 % 	      - Compute an interval estimation with maximum possibility.
 % 	      - Compute a distribution as estimation.
 %
-% For additional information, please visit http://www.possmfa.edu
+% For additional information, please visit https://github.com/kikollan/PFA-Toolbox
 %
 %===============================================================================
 %

@@ -44,7 +44,7 @@ function varargout = guiPossMeasurements(varargin)
 % NOTE: If you want to save the structure into a file, use the standard 
 % MATLAB command, save.
 % 
-% More Information, please visit wwww.PFAtoolbox.com
+% More Information, please visit https://github.com/kikollan/PFA-Toolbox
 %
 %========================================================================================
 
