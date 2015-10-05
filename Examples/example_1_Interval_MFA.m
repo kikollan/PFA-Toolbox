@@ -10,8 +10,8 @@
 % 2. INTERVAL FLUX ESTIMATION
 % 3. GRAPHICAL REPRESENTATION
 %
-% For additional information, please visit http://www.possmfa.edu
-
+% For additional information, please visit https://github.com/kikollan/PFA-Toolbox
+%
 %===========================================================================
 
 %% 1. PROBLEM FORMULATION

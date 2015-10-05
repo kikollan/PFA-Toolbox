@@ -14,7 +14,8 @@
 % 4.	BIOMASS ESTIMATION WITHOUT INCLUDE MEASURES OF CO2 AND O2 FLUXES.
 % 5.	CONSISTENCY EVALUATION OF MEASUREMENTS.
 % 
-% For additional information, please visit http://www.possmfa.edu
+% For additional information, please visit https://github.com/kikollan/PFA-Toolbox
+%
 %===================================================================================
 %
 %% 1. PROBLEM FORMULATION 

@@ -25,7 +25,7 @@ function [h_out] = plot_intervals(flux,vmin_c1,vmax_c1,vmin_c2,vmax_c2,vmin_c3,v
 % 
 % See also solve_PossInterval
 % 
-% For additional information, please visit http://www.possmfa.edu
+% For additional information, please visit https://github.com/kikollan/PFA-Toolbox
 %
 %================================================================================================
 

@@ -11,7 +11,7 @@
 % 3. DEFINE MEASUREMENTS WITH TOOLBOX
 % 4. DEFINITION OF UNCERTAINTY IN RELATIVE TERMS
 %
-% For additional information, please visit http://www.possmfa.edu
+% For additional information, please visit https://github.com/kikollan/PFA-Toolbox
 %
 %===================================================================================
 %

@@ -34,7 +34,7 @@ function [vmin,vmax,diagnostic] = solve_PossInterval(PossProblem,poss,flux,mode,
 % 
 % See also   define_MEC, define_MOC
 % 
-% Additional information, please visit http://www.possmfa.edu
+% Additional information, please visit https://github.com/kikollan/PFA-Toolbox
 %
 %====================================================================================================
 

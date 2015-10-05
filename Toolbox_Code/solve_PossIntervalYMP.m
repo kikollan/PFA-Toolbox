@@ -40,7 +40,7 @@ function [vmin, vmax, diagnostic] = solve_PossIntervalYMP(F, J, poss, var, mode,
 % “diagnostic.details” provides all the info returned by the optimization solver.
 %
 % 
-% Additional information, please visit http://www.possmfa.edu
+% Additional information, please visit https://github.com/kikollan/PFA-Toolbox
 %
 %=============================================================================================================================================
 
