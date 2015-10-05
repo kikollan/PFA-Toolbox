@@ -1,6 +1,6 @@
 YALMIP is free of charge to use and is openly distributed, but note that
 
-1. Copyright owned by Johan Löfberg.
+1. Copyright owned by Johan LÃ¶fberg.
 
 2. YALMIP must be referenced when used in a published work (give me some credit for saving your valuable time!)
 
@@ -12,18 +12,18 @@ YALMIP is free of charge to use and is openly distributed, but note that
 
 If you feel YALMIP and/or related support has contributed significantly to some research and would like to co-author a paper you are very welcome to ask, but please do not add me as co-author without asking!
 
-Something like this could be a suitable general reference (to write ö, use \"{o} in Latex. Note that o and ö are two completely different letters, and ö should never be written as oe.)
+Something like this could be a suitable general reference (to write Ã¶, use \"{o} in Latex. Note that o and Ã¶ are two completely different letters, and Ã¶ should never be written as oe.)
 
-YALMIP : A Toolbox for Modeling and Optimization in MATLAB. J. Löfberg. In Proceedings of the CACSD Conference, Taipei, Taiwan, 2004. (URL) (BIB)
+YALMIP : A Toolbox for Modeling and Optimization in MATLAB. J. LÃ¶fberg. In Proceedings of the CACSD Conference, Taipei, Taiwan, 2004. (URL) (BIB)
 
 If you use the sum-of-squares module, a reference to the associated paper might be in place
 
-Pre- and post-processing sum-of-squares programs in practice. J. Löfberg. IEEE Transactions on Automatic Control, 54(5):1007-1011, 2009. (URL) (PDF) (BIB)
+Pre- and post-processing sum-of-squares programs in practice. J. LÃ¶fberg. IEEE Transactions on Automatic Control, 54(5):1007-1011, 2009. (URL) (PDF) (BIB)
 
 Similarily, if you rely on the automatic dualization,
 
-Dualize it: software for automatic primal and dual conversions of conic programs. J. Löfberg. Optimization Methods and Software, 24:313 - 325, 2009. (URL) (PDF) (BIB)
+Dualize it: software for automatic primal and dual conversions of conic programs. J. LÃ¶fberg. Optimization Methods and Software, 24:313 - 325, 2009. (URL) (PDF) (BIB)
 
 And finally the robust optimization module
 
-Automatic robust convex programming. J. Löfberg. Optimization methods and software, 27(1):115-129, 2012. (URL) (BIB)
+Automatic robust convex programming. J. LÃ¶fberg. Optimization methods and software, 27(1):115-129, 2012. (URL) (BIB)
