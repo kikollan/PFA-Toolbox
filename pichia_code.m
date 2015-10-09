@@ -11,8 +11,7 @@
 % 1.	PROBLEM FORMULATION
 % 2.	BIOMASS ESTIMATION INCLUDING MEASURES OF CO2 AND O2 FLUXES.
 % 3.	PLOT PREDICTIONS
-% 4.	BIOMASS ESTIMATION WITHOUT INCLUDE MEASURES OF CO2 AND O2 FLUXES.
-% 5.	CONSISTENCY EVALUATION OF MEASUREMENTS.
+% 4.	CONSISTENCY EVALUATION OF MEASUREMENTS.
 % 
 % For additional information, please visit https://github.com/kikollan/PFA-Toolbox
 %
@@ -70,47 +69,20 @@ model.S(isnan(model.S))=0;
   [PossProblem] = define_MEC(PossProblem, PossMeasures, index);
  
 %Develop interval estimates for three intervals of possibility 0.1, 0.5, 0.99
-   [vmin,vmax]=solve_PossInterval(PossProblem,[0.99,0.5,0.1],47);
+   [Vmin,Vmax]=solve_PossInterval(PossProblem,[0.99,0.5,0.1],47);
    
 % 3.	PLOT OF PREDICTIONS.
+
+%convert units
+vmin=Vmin*25.86/1000; %25.86 biomass molecular weight
+vmax=Vmax*25.86/1000;
 % Growth rate predictions Vs measured values.
 
  plot_intervals(i,vmin(1,1),vmax(1,1),vmin(2,1),vmax(2,1),vmin(3,1),vmax(3,1));hold on
- plot(i,exp{i}.wm(1,9),'xk','LineWidth',2)
+ plot(i,exp{i}.wm(1,9)*(25.86/1000),'xk','LineWidth',2)
   end
   
-%% 4.BIOMASS ESTIMATION WITHOUT INCLUDE MEASURES OF CO2 AND O2 FLUXES.
 
-% Perform calculations.
-
-  for i=1:length(exp)
-      
-% Charge measured flux constraints.
-
-  %  Measures    GLU              EtOH          Gly            Cit             Pyr               MET  
-  index     = [   40               42            43             44              45                 46]; 
-  Exp{i}.wm = [  exp{i}.wm(1,2)  exp{i}.wm(1,4) exp{i}.wm(1,5) exp{i}.wm(1,6) exp{i}.wm(1,7)  exp{i}.wm(1,8)];
-  index(isnan(Exp{i}.wm)) = [];    
-  Exp{i}.wm(isnan(Exp{i}.wm)) = []; %Eliminate NAN's
-  
-% Adding uncertainty.
-  intFP= 0.05 ;
-  intLP= 0.2;
-
-  intFP_abs = max((0.001),abs(Exp{i}.wm.*intFP));
-  intLP_abs = max((2*0.001),abs(Exp{i}.wm.*intLP)); 
-
-%Generate the possibilistic measures structure of measures.
-
-  [PossMeasures]=define_PossMeasurements( Exp{i}.wm,intFP_abs,intLP_abs);
-  [PossProblem] = define_MEC(PossProblem, PossMeasures, index);
- % Interval estimates for poss = Three intervals of possibility 0.1, 0.5, 0.99.
-  [vmin,vmax]=solve_PossInterval(PossProblem,[0.99,0.5,0.1],47);
-  
-%plot predictions, for growth rate, and measured values
- plot_intervals(i,vmin(1,1),vmax(1,1),vmin(2,1),vmax(2,1),vmin(3,1),vmax(3,1));hold on
- plot(i,exp{i}.wm(1,9),'xk','LineWidth',2)
-  end
  %% CONSISTENCY EVALUATION
  
 %  Charge data sets.
