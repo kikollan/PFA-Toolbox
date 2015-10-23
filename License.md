@@ -2,7 +2,7 @@
 
 The PFA TOOLBOX is free of charge to use and is openly distributed, but note that:
 
-1. Copyright is owned by [XXXXX].
+1. Copyright is owned by Yeimy Morales, Gabriel Bosque, Josep Vehí, Jesús Picó and Francisco Llaneras
 
 2. PFA TOOLBOX must be referenced when used in a published work.
 
