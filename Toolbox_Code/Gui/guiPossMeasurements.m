@@ -1074,6 +1074,6 @@ web('http://sb2cl.ai2.upv.es');
 function contact_kiko_Callback(hObject, eventdata, handles)
 web('http://francisco.llaneras.es');
 function about_toolbox_Callback(hObject, eventdata, handles)
-web('http://francisco.llaneras.es');
+web('http://kikollan.github.io/PFA-Toolbox/');
 function help_Callback(hObject, eventdata, handles)
-web('http://francisco.llaneras.es');
+web('http://kikollan.github.io/PFA-Toolbox/');
