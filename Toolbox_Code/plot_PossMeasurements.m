@@ -30,7 +30,7 @@ function [meas_out,pos_out] = plot_PossMeasurements(PossMeasurements,flux,resolu
 % 
 % See also define_PossMeasurements
 %
-% For additional information, please visit https://github.com/kikollan/PFA-Toolbox
+% For additional information, please visit http://kikollan.github.io/PFA-Toolbox
 %
 %==============================================================================================
 

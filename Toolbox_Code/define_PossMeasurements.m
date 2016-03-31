@@ -36,7 +36,7 @@ function [PossMeasurements] = define_PossMeasurements(wm,intFP,intLP)
 % As an alternative, advanced user can define directly the variables in the
 % PossMeasurements struct.
 %
-% For additional information, please visit https://github.com/kikollan/PFA-Toolbox
+% For additional information, please visit http://kikollan.github.io/PFA-Toolbox
 %
 %===========================================================================
 

@@ -1,4 +1,4 @@
-function [vmin, vmax, diagnostic] = solve_maxPossIntervals(PossProblem, options)
+function [vmin, vmax] = solve_maxPossIntervals(PossProblem, options)
 % 
 % solve_maxPossIntervals — Returns the interval estimate of fluxes with
 %                           maximum possibility.
@@ -23,7 +23,7 @@ function [vmin, vmax, diagnostic] = solve_maxPossIntervals(PossProblem, options)
 % 
 % See also   define_MEC, define_MOC
 % 
-% Additional information, please visit https://github.com/kikollan/PFA-Toolbox
+% Additional information, please visit http://kikollan.github.io/PFA-Toolbox
 %
 %==============================================================================================
 
@@ -38,7 +38,7 @@ vmax=[];
 for i=1:length(PossProblem.v)
     
     % compute its min & max value with full conditional possibility for flux v(i)
-    [vmin_i, vmax_i,diagnostic]=solve_PossIntervalYMP(PossProblem.CB, PossProblem.J, 1, PossProblem.v(i), 'cond', options);
+    [vmin_i, vmax_i]=solve_PossIntervalYMP(PossProblem.CB, PossProblem.J, 1, PossProblem.v(i), 'cond', options);
     
     %outputs
     vmin = [vmin; vmin_i];

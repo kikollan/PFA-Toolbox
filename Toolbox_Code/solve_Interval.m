@@ -17,7 +17,7 @@ function [vmin, vmax, diagnostic] = solve_Interval(constraints, flux, options)
 % (use ‘help yalmip’ for details). 
 % 
 % 
-% Additional information, please visit https://github.com/kikollan/PFA-Toolbox
+% Additional information, please visit http://kikollan.github.io/PFA-Toolbox
 %
 %============================================================================================
 

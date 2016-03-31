@@ -22,7 +22,7 @@ function [meas_out,pos_out] = plot_distribution(vmin,vmax,poss)
 % 
 % See also   solve_PossInterval
 % 
-% For additional information, please visit http://www.possmfa.edu
+% For additional information, please visit http://kikollan.github.io/PFA-Toolbox
 %
 %=============================================================================================================
 

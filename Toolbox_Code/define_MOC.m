@@ -19,7 +19,7 @@ function [PossProblem] = define_MOC(model)
 % model.lb	(optional) Lower bound for each flux.
 % model.ub	(optional) Upper bound for each flux.
 % 
-% For additional information, please visit https://github.com/kikollan/PFA-Toolbox
+% For additional information, please visit http://kikollan.github.io/PFA-Toolbox
 %
 % ==========================================================================================
 

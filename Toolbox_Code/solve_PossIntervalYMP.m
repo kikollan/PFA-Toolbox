@@ -1,4 +1,4 @@
-function [vmin, vmax, diagnostic] = solve_PossIntervalYMP(F, J, poss, var, mode, options)
+function [vmin, vmax] = solve_PossIntervalYMP(F, J, poss, var, mode, options)
 % 
 % solve_PossIntervalYMP  — Returns an interval estimate for a flux for the 
 %                           desired degree of possibility. This function uses
@@ -33,14 +33,8 @@ function [vmin, vmax, diagnostic] = solve_PossIntervalYMP(F, J, poss, var, mode,
 % 
 % The optional input “options” specifies the YALMIP solver options (see ‘help yalmip’). 
 % 
-% The optional output “diagnostic” returns information about the solver status
-% (see ‘help yalmiperror’). “diagnostic.error” indicates if the problem was 
-% successfully solved (it return ‘0’ if the problem is successfully solved, 
-% ‘1’ if the problem is infeasible, etc. See ‘yalmiperror’). 
-% “diagnostic.details” provides all the info returned by the optimization solver.
-%
 % 
-% Additional information, please visit https://github.com/kikollan/PFA-Toolbox
+% Additional information, please visit http://kikollan.github.io/PFA-Toolbox
 %
 %=============================================================================================================================================
 
@@ -81,34 +75,35 @@ optimiz_max = optimizer(F1,-var,options,x,var);
 % compute min and max for each level of possibility
 vmin = []; vmax = [];
 for gamma=poss
-	vmax=[vmax [optimiz_max{-log(gamma)}]];
-    vmin=[vmin [optimiz_min{-log(gamma)}]];
+    [aux_max, infeas_max] = optimiz_max{-log(gamma)};
+    [aux_min, infeas_min] = optimiz_min{-log(gamma)};
+	vmax=[vmax [aux_max]];
+    vmin=[vmin [aux_min]];
 end
 
-% check error: if there is NaN in the solution
-if (sum(isnan([vmin; vmax])))
-    warning('There is a NaN as solution. Trying to run again with quasiZero=0.001.');
+% check error: if there is an error, rise a warning
+if (or (infeas_max ~= 0, infeas_min ~= 0) )
+    warning('Trying to run again with quasiZero=0.005. If you are using "linprog" as LP, you should try another solver, such as GPLK or CPLEX.');
     
-    % rerun with large...
-    quasiZero = 0.001;  
+    % rerun with larger tolerance...
+    quasiZero = 0.005;  
     x = sdpvar(1,1);
     if (strcmp(mode,'cond'))     F1=[F, J-maxJ<=x+quasiZero]; % conditional possibility
     else                         F1=[F, J     <=x+quasiZero];       
     end
-    optimiz_min = optimizer(F1, var,options,x,var);
-    optimiz_max = optimizer(F1,-var,options,x,var);
+    optimiz_min = optimizer(F1, var,sdpsettings('verbose',2),x,var);
+    optimiz_max = optimizer(F1,-var,sdpsettings('verbose',2),x,var);
     vmin = []; vmax = [];
     for gamma=poss
-        vmax=[vmax [optimiz_max{-log(gamma)}]];
-        vmin=[vmin [optimiz_min{-log(gamma)}]];
+        [aux_max, infeas_max] = optimiz_max{-log(gamma)};
+        [aux_min, infeas_min] = optimiz_min{-log(gamma)};
+        vmax=[vmax [aux_max]];
+        vmin=[vmin [aux_min]];
     end
-end
-
-% get info from optimisation diagnostics
-diagnostic.details = sol.info;
-diagnostic.error = sol.problem;
-
-% check error: if there is an error, rise a warning
-if (sol.problem ~= 0)
-    warning('There was a problem solving the PossMFA problem. Please review the diagnostic output.');
+    
+    % check error: if there is  still an error, rise a warning
+    if (or (infeas_max ~= 0, infeas_min ~= 0) )
+        warning('CAUTION: There was a problem solving an optimization problem. The problem may be infeasible or unbounded. If you are using "linprog" as LP, you should try another solver, such as GPLK or CPLEX.');
+    end
+    
 end

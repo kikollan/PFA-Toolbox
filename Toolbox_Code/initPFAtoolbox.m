@@ -11,7 +11,7 @@ function initPFAtoolbox()
 % the path. The optimization solver GLPK is selected, if it is installed and
 % is detected. Otherwise, YALMIP is initialized with the available solver.
 % 
-% For additional information visit https://github.com/kikollan/PFA-Toolbox
+% For additional information visit http://kikollan.github.io/PFA-Toolbox
 %
 % ==========================================================================================
 

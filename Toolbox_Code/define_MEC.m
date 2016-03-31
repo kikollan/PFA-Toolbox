@@ -28,7 +28,7 @@ function [PossProblem] = define_MEC(PossProblem,PossMeasurements,index)
 %
 % See also   define_MOC, define_PossMeasurements
 % 
-% For additional information, please visit https://github.com/kikollan/PFA-Toolbox
+% For additional information, please visit http://kikollan.github.io/PFA-Toolbox
 %
 %=====================================================================================================
 
