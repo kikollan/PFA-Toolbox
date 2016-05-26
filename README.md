@@ -9,7 +9,9 @@ Interval and Possibilistic MFA are two variants of Metabolic Flux Analysis (MFA)
 
 * Provides MFA estimations accounting for measurements imprecision.
 
-* Allows to easily plot interval estimates and flux distributions. *Allow describing the measurements with a graphic interface.
+* Allows to easily plot interval estimates and flux distributions. 
+
+* *Allow describing the measurements with a graphic interface.
 
 * The toolbox is composed of simple MATLAB functions, which are flexible and can be modified by the user.
 
